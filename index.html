@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Compétition Aléatoire</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; }
+        input { margin: 5px; }
+        button { margin-top: 10px; }
+        #results { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>Former des Équipes Aléatoires</h1>
+    <p>Entrez les noms (un par ligne) :</p>
+    <textarea id="names" rows="10" cols="30"></textarea><br>
+    <button onclick="createTeams()">Générer les équipes</button>
+    <div id="results"></div>
+
+    <script>
+        function createTeams() {
+            const namesText = document.getElementById('names').value;
+            const names = namesText.split('\n').map(name => name.trim()).filter(name => name !== '');
+            if (names.length < 2) {
+                document.getElementById('results').innerHTML = 'Entrez au moins deux noms pour créer des équipes.';
+                return;
+            }
+            shuffle(names);
+            let resultsHTML = '<h2>Équipes :</h2>';
+            for (let i = 0; i < names.length; i += 2) {
+                if (i + 1 < names.length) {
+                    resultsHTML += `<p>${names[i]} et ${names[i + 1]}</p>`;
+                } else {
+                    resultsHTML += `<p>${names[i]} (seul)</p>`;
+                }
+            }
+            document.getElementById('results').innerHTML = resultsHTML;
+        }
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
+            }
+        }
+    </script>
+</body>
+</html>
